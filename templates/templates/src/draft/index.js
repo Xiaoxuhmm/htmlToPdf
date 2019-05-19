@@ -5,6 +5,7 @@ import {
     CompositeDecorator,
     Editor,
     EditorState,
+    RichUtils
 } from 'draft-js';
 import { stateToHTML } from 'draft-js-export-html';
 import SimpleCheckbox from '../components/checkbox';
@@ -77,6 +78,11 @@ class MyEditor extends React.Component {
                 component: TokenSpan,
             },
         ]);
+
+
+
+
+
         const blocks = convertFromRaw(rawContent);
         this.state = {
             editorState: EditorState.createWithContent(blocks, decorator),
@@ -104,9 +110,33 @@ class MyEditor extends React.Component {
             console.log(html);
         };
     }
+
+    onUnderlineClick = () => {
+        this.onChange(
+            RichUtils.toggleInlineStyle(this.state.editorState, "UNDERLINE")
+        );
+    };
+
+    onBoldClick = () => {
+        this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, "BOLD"));
+    };
+
+    onItalicClick = () => {
+        this.onChange(
+            RichUtils.toggleInlineStyle(this.state.editorState, "ITALIC")
+        );
+    };
+
     render() {
         return (
             <div style={styles.root}>
+                <button onClick={this.onUnderlineClick}>U</button>
+                <button onClick={this.onBoldClick}>
+                    <b>B</b>
+                </button>
+                <button onClick={this.onItalicClick}>
+                    <em>I</em>
+                </button>
                 <div style={styles.editor} onClick={this.focus}>
                     <Editor
                         editorState={this.state.editorState}
