@@ -103,7 +103,7 @@ class MyEditor extends React.Component {
                     };
                 }
             }
-            let html = stateToHTML(convertFromRaw(convertToRaw(this.state.editorState.getCurrentContent())), options);
+            let html = stateToHTML(this.state.editorState.getCurrentContent(), options);
             const child = document.createElement('div');
             child.innerHTML = html;
             document.getElementsByTagName('body')[0].append(child);
@@ -126,6 +126,14 @@ class MyEditor extends React.Component {
             RichUtils.toggleInlineStyle(this.state.editorState, "ITALIC")
         );
     };
+
+    onInputClick = () => {
+        const contentState = this.state.editorState.getCurrentContent();
+        contentState.createEntity(
+            'input',
+            'IMMUTABLE'
+        )
+    }
 
     render() {
         return (
